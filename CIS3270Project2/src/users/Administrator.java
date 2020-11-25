@@ -21,5 +21,6 @@ public class Administrator extends Customer {
 		// do some code
 	}
 	
+	//test
 	
 }
