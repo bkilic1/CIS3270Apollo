@@ -8,7 +8,7 @@ public class Database {
 
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		
+		getConnection(); // you can call this method to test
 		
 		
 	}
