@@ -24,6 +24,8 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 		this.ssn = ssn;
-		this.securityQuestion = securityQuestion;
+	this.securityQuestion = securityQuestion;
+	
+	//adc
 	}
 }
