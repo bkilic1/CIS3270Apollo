@@ -24,7 +24,7 @@ public class UI extends Application {
 		root.getChildren().add(button);
 		Scene scene = new Scene(root, 300, 300);
 		primaryStage.setTitle("Test run");
-		primaryStage.setScene(scene);
+		primaryStage.setScene(scene); 
 		primaryStage.show();
 	}
 
