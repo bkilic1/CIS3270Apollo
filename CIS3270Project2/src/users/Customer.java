@@ -2,9 +2,9 @@ package users;
 
 public class Customer extends User {
 
-	public Customer(String firstName, String lastName, String email, String address, int zip, String state, String userName,
+	public Customer(String firstName, String lastName, String id, String email, String address, int zip, String state, String userName,
 			String password, String ssn, String securityQuestion) {
-		super(firstName, lastName, email, address, zip, state, userName, password, ssn, securityQuestion);
+		super(firstName, lastName, id, email, address, zip, state, userName, password, ssn, securityQuestion);
 		// TODO Auto-generated constructor stub
 	}
 

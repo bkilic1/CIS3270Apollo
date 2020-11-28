@@ -26,20 +26,16 @@ public class User {
 		this.userName = userName;
 		this.password = password;
 		this.ssn = ssn;
-	this.securityQuestion = securityQuestion;
+		this.securityQuestion = securityQuestion;
 	}
 	
-	public User(String id) {
-		
-		this.id = id;
-		
-	}
-	
-	
-	
-	
-	
-	
+	/* Was there a reason why this was added
+	 * public User(String id) {
+	 * 
+	 * this.id = id;
+	 * 
+	 * }
+	 */
 	
 	@Override
 	public String toString() {
