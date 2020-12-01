@@ -3,13 +3,14 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Database {
 
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
 		getConnection(); // you can call this method to test
-		
+		System.out.println(getZip());
 		
 	}
 	
@@ -27,6 +28,26 @@ public class Database {
 		finally {
 			System.out.println("Function complete");
 		}
+	}
+	
+	public static int getZip() throws Exception { //this is to receive something from database;
+		
+		int zip = 0;
+		try {
+			Connection conn = getConnection();
+			ResultSet result = conn.prepareStatement("SELECT zip FROM Users WHERE ssn=123121234;").executeQuery();
+			
+			while (result.next()) {
+				zip = Integer.parseInt(result.getString("zip"));
+			}
+			return zip;
+			
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		return 0;
+	
 	}
 	
 	public static Connection getConnection() throws Exception{

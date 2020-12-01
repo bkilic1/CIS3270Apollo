@@ -1,0 +1,72 @@
+.button1 {
+    -fx-background-color: #431fa0;
+}
+
+.button1:hover {
+    -fx-background-color: #6F4CBB;
+    -fx-cursor: hand;
+}
+
+.button1:pressed {
+    -fx-background-color: #371897;
+}
+
+.button1 :active {
+    -fx-background-color: #80aff5;
+    -fx-cursor: hand;
+}
+
+.button2 {
+    -fx-background-color: #6F4CBB;
+    -fx-text-fill: #ffffff;
+}
+
+.button2:hover {
+    -fx-background-color: #371897;
+    -fx-cursor: hand;
+
+}
+
+.button2:pressed {
+    -fx-background-color: #431fa0;
+}
+
+.button2 :active {
+    -fx-background-color: #80aff5;
+}
+
+
+
+.button3 {
+    -fx-background-color: #EF5D60;
+    -fx-text-fill: #ffffff;
+}
+
+.button3:hover {
+    -fx-background-color: #F6A2A4;
+    -fx-cursor: hand;
+
+}
+
+.button3:pressed {
+    -fx-background-color: #EB3336;
+}
+
+.button3:active {
+    -fx-background-color: #EB3336;
+}
+
+.hoverCursour:hover {
+    -fx-cursor: hand;
+}
+
+.text-hover:hover {
+    -fx-text-fill: #6b6b6b;
+    -fx-cursor: hand;
+}
+
+/* .button2 {
+    -fx-background-color: #6F4CBB;
+    -fx-background-radius: 5;
+    -fx-text-fill: #371897;
+} */
