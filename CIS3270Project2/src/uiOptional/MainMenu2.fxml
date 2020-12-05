@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="921.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView layoutX="288.0" layoutY="482.0" prefHeight="181.0" prefWidth="633.0">
+         <columns>
+            <TableColumn prefWidth="96.0" text="Flight #" />
+            <TableColumn prefWidth="104.0" text="Arrival" />
+            <TableColumn prefWidth="88.0" text="Departure" />
+            <TableColumn prefWidth="104.0" text="Arrival Date" />
+            <TableColumn prefWidth="105.0" text="Departure Date" />
+            <TableColumn prefWidth="85.0" text="Availability" />
+         </columns>
+      </TableView>
+      <Button layoutX="228.0" layoutY="188.0" mnemonicParsing="false" text="Add" />
+      <Button layoutX="222.0" layoutY="573.0" mnemonicParsing="false" text="Delete" />
+      <Text layoutX="28.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="50.212890625" />
+      <TableView layoutX="288.0" layoutY="7.0" prefHeight="438.0" prefWidth="633.0">
+         <columns>
+            <TableColumn prefWidth="96.0" text="Flight #" />
+            <TableColumn prefWidth="104.0" text="Arrival" />
+            <TableColumn prefWidth="88.0" text="Departure" />
+            <TableColumn prefWidth="104.0" text="Arrival Date" />
+            <TableColumn prefWidth="105.0" text="Departure Date" />
+            <TableColumn prefWidth="85.0" text="Availability" />
+         </columns>
+      </TableView>
+      <TextField layoutX="78.0" layoutY="10.0" />
+   </children>
+</Pane>

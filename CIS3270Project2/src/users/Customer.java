@@ -1,18 +1,18 @@
 package users;
 
-public class Customer extends User {
+public class Customer extends User  {
 
 	public Customer(String firstName, String lastName, String id, String email, String address, int zip, String state, String userName,
 			String password, String ssn, String securityQuestion) {
 		super(firstName, lastName, id, email, address, zip, state, userName, password, ssn, securityQuestion);
 		// TODO Auto-generated constructor stub
 	}
-
-	public void bookFlightFromAccount() {
+	@Override
+	public void addFlight() {
 		//do some code TBD
 	}
-	
-	public void deleteFlightFromAccount() {
+	@Override
+	public void deleteFlight() {
 		//do some code TBD
 	}
 }

@@ -29,13 +29,21 @@ public class User {
 		this.securityQuestion = securityQuestion;
 	}
 	
-	/* Was there a reason why this was added
-	 * public User(String id) {
-	 * 
-	 * this.id = id;
-	 * 
-	 * }
-	 */
+	
+	
+	public void addFlight() {
+		// do some code
+	}
+	
+	public void deleteFlight() {
+		
+		
+	}
+	
+	public void updateFlight() {
+		
+		
+	}
 	
 	@Override
 	public String toString() {
