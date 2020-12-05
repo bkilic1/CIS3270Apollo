@@ -12,7 +12,6 @@ public class MainMenuController {
 
 	@FXML private javafx.scene.control.Button logoutButton;
 
-	
 	@FXML
 	private void switchToSignIn(ActionEvent event) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file

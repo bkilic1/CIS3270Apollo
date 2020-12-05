@@ -1,9 +1,11 @@
 package ui;
-
+import database.Database;
+import ui.Controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Optional;
 
 import database.Database;
 import javafx.event.ActionEvent;
@@ -12,9 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
-public class SignUpController {
+public class SignUpController extends Database{
 
 	@FXML private javafx.scene.control.Button backToSignIn;
 	@FXML private javafx.scene.control.TextField firstNameField;
@@ -43,30 +48,60 @@ public class SignUpController {
 	}
 	
 	@FXML
-	private void signUp() {
-		System.out.println("Hello!");
+	private void signUp(ActionEvent event) {
 		
 		try {
-
 			String employee = isEmployee.getSelectedToggle().toString();
 			int answer = employee.replaceAll("R.*]", "").substring(1, 3).toString().contains("Ye") ? 1 : 0;
-			Connection connection = Database.getConnection();
-			PreparedStatement insertStatement = connection.prepareStatement(String.format("INSERT INTO Users VALUES (%s, '%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %s);"
+			
+			String query = String.format("%s, '%s', '%s', '%s', '%s', %s, '%s', '%s', '%s', '%s', %s"
 					,ssnField.getText(), firstNameField.getText(), lastNameField.getText(), emailField.getText(), addressField.getText(),
-					zipField.getText(), stateField.getText(), usernameField.getText(), passwordField.getText(), securityField.getText(), answer));
+					zipField.getText(), stateField.getText(), usernameField.getText(), passwordField.getText(), securityField.getText(), answer);
 			
-			insertStatement.executeUpdate();
+			insertStatement("Users", query, event);
 			
-			
-		}
-		catch (Exception e) {
-			System.out.println(e);
 			
 		}
-		finally {
-			
+		catch (Exception error) {
+			System.out.println("error");
 		}
 	}
 	
+	@Override
+	protected void insertStatement(String table, String query, ActionEvent event) throws Exception {
+		Connection connection = getConnection();
+		
+		try {
+			PreparedStatement insertStatement = connection.prepareStatement(String.format("INSERT INTO %s VALUES (%s);", table, query));
+			insertStatement.executeUpdate();
+			
+			// if successful
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Success");
+			alert.setHeaderText("Sign In Now!");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK) {
+				switchToSignIn(event);
+			}
+			
+			
+		}
+		catch (Exception e) { // if not successful
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			
+			alert.setTitle("Unsuccessful");
+			alert.setHeaderText("Information rejected.");
+			alert.setContentText("Expand the dialog below to see why...");
+			
+			TextArea area = new TextArea(e.toString());
+			alert.getDialogPane().setExpandableContent(area);
+			alert.showAndWait();
+			
+		}
+		finally {
+			connection.close();
+		}
+	}
 	
 }
