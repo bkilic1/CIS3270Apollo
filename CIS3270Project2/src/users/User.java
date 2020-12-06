@@ -29,6 +29,24 @@ public class User {
 		this.isEmployee = false;
 	}
 	
+<<<<<<< HEAD
+=======
+	
+	
+	public void addFlight() {
+		// do some code
+	}
+	
+	public void deleteFlight() {
+		
+		
+	}
+	
+	public void updateFlight() {
+		
+		
+	}
+>>>>>>> branch 'master' of https://github.com/mrjoemen/CIS3270Project2.git
 	
 	@Override
 	public String toString() {
