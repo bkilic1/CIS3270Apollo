@@ -1,6 +1,6 @@
 package ui;
 import database.Database;
-import ui.Controller;
+import ui.UIController;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

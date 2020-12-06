@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class UI extends Application { // DO NOT CHANGE ANYTHIGN IN THIS CLASS, EVERYTHING NEEDS TO BE DONE IN CONTROLLER
+public class MainMethod extends Application { // DO NOT CHANGE ANYTHIGN IN THIS CLASS, EVERYTHING NEEDS TO BE DONE IN CONTROLLER
 
 	public static void main(String[] args) {
 		launch(args);

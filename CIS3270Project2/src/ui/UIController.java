@@ -1,13 +1,12 @@
 package ui;
 
 import database.Database;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
+import users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField; 
 
-public class Controller {
+public class UIController {
 	
 	@FXML private javafx.scene.control.Button login;
 	@FXML private javafx.scene.control.PasswordField password;
 	@FXML private javafx.scene.control.TextField username;
 	@FXML private javafx.scene.control.Label incorrectPassword;
 	@FXML private javafx.scene.control.Button signUpButton;
+	private User currentUser;
 	
 	@FXML
 	private void loginUser(ActionEvent event) {
@@ -36,7 +36,6 @@ public class Controller {
 		try {
 			Connection connection = Database.getConnection();
 			ResultSet result = connection.prepareStatement("SELECT COUNT(1) FROM Users WHERE username = '" + u + "' AND password = '" + p + "' ").executeQuery();
-			
 			
 			while (result.next()) {
 				if (result.getInt(1) == 1) { // if it's equal then go to main menu
@@ -48,6 +47,7 @@ public class Controller {
 					window.setScene(scene);
 					window.show();
 					break;
+					
 					
 				} else { // show invalid password
 					incorrectPassword.setVisible(true);

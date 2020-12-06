@@ -1,10 +1,10 @@
 package users;
 
-public class Administrator extends Customer {
+public class Administrator {
 
 	public Administrator(String firstName, String lastName, String id, String email, String address, int zip, String state, String userName,
 			String password, String ssn, String securityQuestion) {
-		super(firstName, lastName, id, email, address, zip, state, userName, password, ssn, securityQuestion);
+		//super(firstName, lastName, id, email, address, zip, state, userName, password, ssn, securityQuestion);
 		// TODO Auto-generated constructor stub
 	}
 	

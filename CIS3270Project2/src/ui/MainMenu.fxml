@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -33,19 +32,22 @@
       </Pane>
    </left>
    <center>
-      <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="172.0" prefWidth="437.0">
-               <children>
-                  <TableView prefHeight="205.0" prefWidth="435.0">
-                    <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="availableFlights" prefHeight="257.0" prefWidth="600.0">
+              <columns>
+                <TableColumn fx:id="col_flightNumber" prefWidth="63.0" text="Flight #" />
+                <TableColumn fx:id="col_from" prefWidth="89.0" text="From" />
+                  <TableColumn fx:id="col_to" prefWidth="79.0" text="To" />
+                  <TableColumn fx:id="col_departure" prefWidth="131.0" text="Departure" />
+                  <TableColumn fx:id="col_arrival" prefWidth="127.0" text="Arrival" />
+                  <TableColumn fx:id="col_passengers" prefWidth="109.0" text="# of Passengers" />
+              </columns>
+            </TableView>
+            <Button layoutX="14.0" layoutY="267.0" mnemonicParsing="false" text="Add Flight" />
+            <Button layoutX="489.0" layoutY="267.0" mnemonicParsing="false" text="Update Flight" />
+            <Button layoutX="264.0" layoutY="267.0" mnemonicParsing="false" text="Delete Flight" />
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>
