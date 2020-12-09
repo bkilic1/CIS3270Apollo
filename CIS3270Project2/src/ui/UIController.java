@@ -39,7 +39,7 @@ public class UIController {
 			
 			while (result.next()) {
 				if (result.getInt(1) == 1) { // if it's equal then go to main menu
-					Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml")); //get FMXL file
+					Parent root = FXMLLoader.load(getClass().getResource("MainMenu2.fxml")); //get FMXL file
 					
 					Scene scene = new Scene(root);
 					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

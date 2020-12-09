@@ -55,7 +55,7 @@
                         </ImageView>
                         <TextFlow layoutX="54.0" layoutY="306.0" prefHeight="20.0" prefWidth="106.0" styleClass="hoverCursour">
                            <children>
-                              <Label onMouseClicked="#test" prefHeight="17.0" prefWidth="173.0" text="Forgot Password? Click here!" />
+                              <Label onMouseClicked="#switchToSignUp" prefHeight="17.0" prefWidth="173.0" text="Forgot Password? Click here!" />
                            </children>
                         </TextFlow>
                      </children>

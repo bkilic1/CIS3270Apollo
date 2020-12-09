@@ -40,8 +40,7 @@ public class MainMenuController extends Database implements Initializable {
 	@FXML private javafx.scene.control.TableColumn<Flight, Integer> col_passengers;
 	
 	ObservableList<Flight> listOfFlights = FXCollections.observableArrayList();
-	
-	
+
 	
 	@Override
 	public void initialize (URL Location, ResourceBundle resources) {
