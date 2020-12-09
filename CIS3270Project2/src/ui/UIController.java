@@ -26,6 +26,7 @@ public class UIController {
 	@FXML private javafx.scene.control.TextField username;
 	@FXML private javafx.scene.control.Label incorrectPassword;
 	@FXML private javafx.scene.control.Button signUpButton;
+	@FXML private javafx.scene.control.Button forgotPassbutton;
 	private User currentUser;
 	
 	@FXML
@@ -62,11 +63,26 @@ public class UIController {
 			
 		}
 		
+		
 	}
 	
 	@FXML
 	private void switchToSignUp(ActionEvent event) throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml")); //get FMXL file
+		
+		Scene scene = new Scene(root);
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		
+		window.setScene(scene);
+		window.show();
+		
+	}
+	
+	@FXML
+	private void forgotPassword(ActionEvent event) throws IOException {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("ForgotPasswordScreen.fxml")); //get FMXL file
+		
 		
 		Scene scene = new Scene(root);
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
