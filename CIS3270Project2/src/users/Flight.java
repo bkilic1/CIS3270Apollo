@@ -7,12 +7,12 @@ public class Flight {
 	private int flightNumber;
 	private String cityFrom;
 	private String cityTo;
-	private Date departure;
-	private Date arrival;
+	private String departure;
+	private String arrival;
 	private int numberOfPassengers;
 	
 	
-	public Flight(int flightNumber, String cityFrom, String cityTo, Date departure, Date arrival, int numberOfPassengers) {
+	public Flight(int flightNumber, String cityFrom, String cityTo, String departure, String arrival, int numberOfPassengers) {
 		this.flightNumber = flightNumber;
 		this.cityFrom = cityFrom;
 		this.cityTo = cityTo;
@@ -52,22 +52,22 @@ public class Flight {
 	}
 
 
-	public Date getDeparture() {
+	public String getDeparture() {
 		return departure;
 	}
 
 
-	public void setDeparture(Date departure) {
+	public void setDeparture(String departure) {
 		this.departure = departure;
 	}
 
 
-	public Date getArrival() {
+	public String getArrival() {
 		return arrival;
 	}
 
 
-	public void setArrival(Date arrival) {
+	public void setArrival(String arrival) {
 		this.arrival = arrival;
 	}
 

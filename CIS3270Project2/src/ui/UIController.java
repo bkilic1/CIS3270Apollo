@@ -3,21 +3,15 @@ package ui;
 import database.Database;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import users.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField; 
+
 
 public class UIController {
 	
@@ -26,7 +20,6 @@ public class UIController {
 	@FXML private javafx.scene.control.TextField username;
 	@FXML private javafx.scene.control.Label incorrectPassword;
 	@FXML private javafx.scene.control.Button signUpButton;
-	private User currentUser;
 	
 	@FXML
 	private void loginUser(ActionEvent event) {
@@ -39,7 +32,7 @@ public class UIController {
 			
 			while (result.next()) {
 				if (result.getInt(1) == 1) { // if it's equal then go to main menu
-					Parent root = FXMLLoader.load(getClass().getResource("MainMenu2.fxml")); //get FMXL file
+					Parent root = FXMLLoader.load(getClass().getResource("MainMenuAdmin.fxml")); //get FMXL file
 					
 					Scene scene = new Scene(root);
 					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

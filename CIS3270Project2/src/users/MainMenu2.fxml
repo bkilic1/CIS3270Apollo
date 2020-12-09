@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="921.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainMenu2">
+	   <children>
+	      <TableView layoutX="288.0" layoutY="482.0" prefHeight="181.0" prefWidth="633.0">
+	         <columns>
+	            <TableColumn prefWidth="96.0" text="Flight #" />
+	            <TableColumn prefWidth="100.0" text="From" />
+	            <TableColumn prefWidth="92.0" text="To" />
+	            <TableColumn prefWidth="132.0" text="Arrival Date" />
+	            <TableColumn prefWidth="136.0" text="Departure Date" />
+	            <TableColumn prefWidth="76.0" text="Passengers" />
+	         </columns>
+	      </TableView>
+	      <Button fx:id="bookFlightButton" layoutX="200.0" layoutY="185.0" mnemonicParsing="false" text="Book Flight" />
+	      <Button fx:id="CancelFlightButton" layoutX="196.0" layoutY="573.0" mnemonicParsing="false" text="Cancel Flight" />
+	      <Text layoutX="28.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="50.212890625" />
+	      <TableView fx:id="availableFlights" layoutX="288.0" layoutY="7.0" prefHeight="400.0" prefWidth="633.0">
+	         <columns>
+	            <TableColumn fx:id="flightNumberColumn" prefWidth="96.0" text="Flight #" />
+	            <TableColumn fx:id="fromColumn" prefWidth="104.0" text="From" />
+	            <TableColumn fx:id="toColumn" prefWidth="88.0" text="To" />
+	            <TableColumn fx:id="arrivalDateColumn" prefWidth="135.0" text="Arrival Date" />
+	            <TableColumn fx:id="departureDateColumn" prefWidth="133.0" text="Departure Date" />
+	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="76.0" text="Passengers" />
+	         </columns>
+	      </TableView>
+	      <TextField layoutX="78.0" layoutY="10.0" />
+      <Button fx:id="addFlightButton" layoutX="288.0" layoutY="420.0" mnemonicParsing="false" text="Add a Flight" />
+      <Button fx:id="updateFlightButton" layoutX="564.0" layoutY="420.0" mnemonicParsing="false" text="Update a Flight" />
+      <Button fx:id="deleteFlightButton" layoutX="818.0" layoutY="420.0" mnemonicParsing="false" text="Delete a Flight" />
+	   </children>
+	</Pane>
