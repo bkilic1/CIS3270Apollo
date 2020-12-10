@@ -129,22 +129,67 @@ public class MainMenuAdmin extends Database implements Initializable  {
 		}
 	}
 	
-	private static String parseStringDateIntoDBDate(String str) {
+	private static String parseStringDateIntoDBDate(String str) { // this has to be called when making a query from the table, because the table has a different format than the database
 		String[] splittedString = str.split(" ");
 		
-		for (String element : splittedString) {
-			System.out.println(element);
+//		for (String element : splittedString) {
+//			System.out.println(element);
+//		}
+		
+		String year = splittedString[2];
+		String month = null;
+		
+		switch(splittedString[0]) {
+		case "January":
+			month = "1"; break;
+		case "Feburary":
+			month = "2"; break;
+		case "March":
+			month = "3"; break;
+		case "April":
+			month = "4"; break;
+		case "May":
+			month = "5"; break;
+		case "June":
+			month = "6"; break;
+		case "July":
+			month = "7"; break;
+		case "August":
+			month = "8"; break;
+		case "September":
+			month = "9"; break;
+		case "October":
+			month = "10"; break;
+		case "November":
+			month = "11"; break;
+		case "December":
+			month = "12"; break;
 		}
 		
-		return "hello";
+		String day = splittedString[1].replaceAll("[^0-9]", "");
+		
+		String time = null;
+		
+		if (splittedString[5].equals("PM")) {
+			String[] splittedTime = splittedString[4].split(":");
+			if (Integer.parseInt(splittedTime[0]) >= 1) {
+				int temp = Integer.parseInt(splittedTime[0]) + 12;
+				
+				time = Integer.toString(temp) + ":" + splittedTime[1] + ":" + splittedTime[2];
+			}
+			else {
+				time = splittedString[4];
+			}
+		}
+		else {
+			time = splittedString[4];
+		}
+		
+		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
-	private String getMonth(int month) {
-	    return new DateFormatSymbols().getMonths()[month-1];
-	}
-	
-	public static void main(String args[]) {
-		System.out.println(parseStringDateIntoDBDate("2020-12-19 10:00:00"));
+	private void addFlight() {
+		 
 	}
 
 }
