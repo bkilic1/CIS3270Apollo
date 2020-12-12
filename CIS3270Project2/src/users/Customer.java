@@ -16,4 +16,5 @@ public class Customer extends User  {
 	public void deleteFlight() {
 		//do some code TBD
 	}
+	
 }

@@ -1,4 +1,4 @@
-package ui;
+package uiOptional;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -40,39 +40,11 @@ public class MainMenuController extends Database implements Initializable {
 	@FXML private javafx.scene.control.TableColumn<Flight, Integer> col_passengers;
 	
 	ObservableList<Flight> listOfFlights = FXCollections.observableArrayList();
-	
-	
+
 	
 	@Override
 	public void initialize (URL Location, ResourceBundle resources) {
 		
-		try {
-			Connection connection = getConnection();
-			
-			ResultSet results = connection.createStatement().executeQuery("SELECT * FROM Flight");
-			
-			while (results.next()) {
-				listOfFlights.add(new Flight(
-						Integer.parseInt(results.getString("flightnumber")), 
-						results.getString("cityfrom"), 
-						results.getString("cityto"), 
-						new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").parse(results.getString("departure")), 
-						new SimpleDateFormat("YYYY-MM-dd HH:mm:ss").parse(results.getString("arrival")), 
-						Integer.parseInt(results.getString("numberofpassengers"))));
-			}
-		}
-		catch (Exception e) {
-			System.out.print(e);
-		}
-		
-		col_flightNumber.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
-		col_from.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
-		col_to.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
-		col_departure.setCellValueFactory(new PropertyValueFactory<>("departure"));
-		col_arrival.setCellValueFactory(new PropertyValueFactory<>("arrival"));
-		col_passengers.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
-		
-		availableFlights.setItems(listOfFlights);
 		
 	}
 
