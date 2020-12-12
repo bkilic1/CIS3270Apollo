@@ -19,8 +19,10 @@ public class ForgetPasswordController {
 	@FXML private javafx.scene.control.Button backToSignIn;
 	@FXML private javafx.scene.control.PasswordField securityAnswer;
 	@FXML private javafx.scene.control.Label incorrectSecurity;
+	@FXML private javafx.scene.control.Label showPassword;
 	
-private void securityCheck(ActionEvent event) {
+	@FXML
+	private void securityCheck(ActionEvent event) {
 		
 		String u = userSecurity.getText();
 		String ser = securityAnswer.getText();
@@ -30,23 +32,13 @@ private void securityCheck(ActionEvent event) {
 		try {
 			Connection connection = Database.getConnection();
 			ResultSet result = connection.prepareStatement("SELECT password FROM Users WHERE username = '" + u + "' AND securityanswer = '" + ser + "' ").executeQuery();
+		
 			
 			while (result.next()) {
-				if (result.getInt(1) == 1) { // if it's equal then go to main menu
-					Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml")); //get FMXL file
-					
-					Scene scene = new Scene(root);
-					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-					
-					window.setScene(scene);
-					window.show();
-					break;
-					
-				} else { // show invalid password
-					
-					incorrectSecurity.setVisible(true);
-					
-				}
+				
+				showPassword.setText(result.getString("password"));
+				break;
+
 			}
 			
 		}catch (Exception e) {
