@@ -25,7 +25,7 @@ private void securityCheck(ActionEvent event) {
 		String u = userSecurity.getText();
 		String ser = securityAnswer.getText();
 
-		
+		//test
 		//will check database if user name is = to security question
 		try {
 			Connection connection = Database.getConnection();
