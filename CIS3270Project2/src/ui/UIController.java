@@ -40,7 +40,21 @@ public class UIController {
 					
 					window.setScene(scene);
 					window.show();
-					break;
+					
+					
+				 if (result.getInt(1) == 1 && u.contains("employee")) {// if its employee
+					 
+					 Parent root2 = FXMLLoader.load(getClass().getResource("MainMenu2.fxml")); //get FMXL file
+						
+						Scene scene2 = new Scene(root2);
+						Stage window2 = (Stage) ((Node)event.getSource()).getScene().getWindow();
+						
+						window2.setScene(scene2);
+						window2.show();
+					
+					
+					
+				}	
 					
 					
 				} else { // show invalid password
