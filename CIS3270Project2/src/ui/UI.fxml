@@ -61,7 +61,11 @@
                         <TextFlow layoutX="54.0" layoutY="306.0" prefHeight="20.0" prefWidth="106.0" styleClass="hoverCursour">
                            <children>
 <<<<<<< HEAD
+<<<<<<< HEAD
                               <Button fx:id="forgotPassbutton" mnemonicParsing="false" onAction="#forgotPassword" prefHeight="39.0" prefWidth="173.0" styleClass="button2" text="Forgot Password?" textFill="WHITE" />
+=======
+                              <Label onMouseClicked="#switchToSignUp" prefHeight="17.0" prefWidth="173.0" text="Forgot Password? Click here!" />
+>>>>>>> branch 'master' of https://github.com/mrjoemen/CIS3270Project2
 =======
                               <Label onMouseClicked="#switchToSignUp" prefHeight="17.0" prefWidth="173.0" text="Forgot Password? Click here!" />
 >>>>>>> branch 'master' of https://github.com/mrjoemen/CIS3270Project2

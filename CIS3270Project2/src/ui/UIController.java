@@ -21,8 +21,11 @@ public class UIController {
 	@FXML private javafx.scene.control.Label incorrectPassword;
 	@FXML private javafx.scene.control.Button signUpButton;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@FXML private javafx.scene.control.Button forgotPassbutton;
 	private User currentUser;
+=======
+>>>>>>> branch 'master' of https://github.com/mrjoemen/CIS3270Project2
 =======
 >>>>>>> branch 'master' of https://github.com/mrjoemen/CIS3270Project2
 	
