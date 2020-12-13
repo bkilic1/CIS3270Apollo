@@ -10,11 +10,12 @@ public class User {
 	private String state; //two letter code
 	private String userName;
 	private String password;
-	private String ssn; // social security number
+	private int ssn; // social security number
 	private String securityQuestion;
+	private boolean isEmployee;
 	
-	public User(String firstName, String lastName, String email, String address, int zip, String state, 
-			String userName, String password, String ssn, String securityQuestion) {
+	public User(int ssn, String firstName, String lastName, String email, String address, int zip, String state,
+			String userName, String password, String securityQuestion, boolean isEmployee) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -25,5 +26,72 @@ public class User {
 		this.password = password;
 		this.ssn = ssn;
 		this.securityQuestion = securityQuestion;
+		this.isEmployee = isEmployee;
+	}
+	
+
+	public int getSsn() {
+		return ssn;
+	}
+
+
+	public boolean isEmployee() {
+		return isEmployee;
+	}
+	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public int getZip() {
+		return zip;
+	}
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public String getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+
+
+	@Override
+	public String toString() {
+		
+		return "The name of the user is: " + firstName + lastName + "the email address is: " + email + "the username is: " + userName;
+		
+		//trying
+		
 	}
 }

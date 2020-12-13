@@ -6,7 +6,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFx"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/mysql-connector-java-8.0.22/mysql-connector-java-8.0.22.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFx"/><classpathkind="lib" path="C:/Program Files/Java/mysql-connector-java-8.0.22/mysql-connector-java-8.0.22.jar"/>ntry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Java-FX-11.0.2"/><classpathentry kind="output" path="bin"/>
 </classpath>
