@@ -56,6 +56,28 @@
     -fx-background-color: #EB3336;
 }
 
+.button4 {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #431fa0;
+    -fx-border-color: #431fa0;
+    -fx-border-radius: 3px;
+}
+
+.button4:hover {
+    -fx-background-color: #431fa0;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: #431fa0;
+
+}
+
+.button4:pressed {
+    -fx-background-color: #6F4CBB;
+}
+
+.button4:active {
+    -fx-background-color: #6F4CBB;
+}
+
 .hoverCursour:hover {
     -fx-cursor: hand;
 }
