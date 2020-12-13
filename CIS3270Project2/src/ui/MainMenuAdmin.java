@@ -267,14 +267,13 @@ public class MainMenuAdmin extends Database {
 	
 	public void cancelFlight() throws Exception {
 		
-		
 		Flight selectedFlight = customerFlights.getSelectionModel().getSelectedItem();
 		
 		Connection connection = getConnection();
 		
 		try {
 			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM UsersInFlight WHERE flightnumber=%d and ssn=%d", selectedFlight.getFlightNumber(), user.getSsn()));
-			result.executeQuery();
+			result.executeUpdate();
 			
 			myFlights.remove(selectedFlight);
 		}
