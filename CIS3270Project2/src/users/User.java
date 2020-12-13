@@ -26,9 +26,65 @@ public class User {
 		this.password = password;
 		this.ssn = ssn;
 		this.securityQuestion = securityQuestion;
-		this.isEmployee = false;
+		this.isEmployee = isEmployee;
 	}
 	
+
+	public int getSsn() {
+		return ssn;
+	}
+
+
+	public boolean isEmployee() {
+		return isEmployee;
+	}
+	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+	public int getZip() {
+		return zip;
+	}
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public String getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+
 
 	@Override
 	public String toString() {

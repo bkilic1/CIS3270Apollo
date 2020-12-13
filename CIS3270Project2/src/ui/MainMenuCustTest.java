@@ -1,18 +1,11 @@
 package ui;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-//import java.sql.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
+
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,9 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import users.Flight;
 
-
-public class MainMenuAdmin extends Database implements Initializable  {
-
+public class MainMenuCustTest extends Database implements Initializable {
 	@FXML private javafx.scene.control.Button add;
 	@FXML private javafx.scene.control.Button delete;
 	@FXML private javafx.scene.control.TextField searchField;
@@ -187,5 +178,4 @@ public class MainMenuAdmin extends Database implements Initializable  {
 	private void addFlight() {
 		 
 	}
-
 }
