@@ -4,6 +4,9 @@ import database.Database;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+
+import com.sun.tools.javac.launcher.Main;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +24,8 @@ public class UIController {
 	@FXML private javafx.scene.control.Label incorrectPassword;
 	@FXML private javafx.scene.control.Button signUpButton;
 	@FXML private javafx.scene.control.Button forgotPassbutton;
+	
+	@FXML private javafx.scene.control.Button loginEmployee;
 
 	@FXML
 	private void loginUser(ActionEvent event) {
@@ -33,7 +38,7 @@ public class UIController {
 			
 			while (result.next()) {
 				if (result.getInt(1) == 1) { // if it's equal then go to main menu
-					Parent root = FXMLLoader.load(getClass().getResource("MainMenuAdmin.fxml")); //get FMXL file
+					Parent root = FXMLLoader.load(getClass().getResource("MainMenuAdmin.fxml")); //get FMXL file //it doesnt see my fxml. I dont know why...
 					
 					Scene scene = new Scene(root);
 					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -41,20 +46,45 @@ public class UIController {
 					window.setScene(scene);
 					window.show();
 					
-					
-				 if (result.getInt(1) == 1 && u.contains("employee")) {// if its employee
-					 
-					 Parent root2 = FXMLLoader.load(getClass().getResource("MainMenu2.fxml")); //get FMXL file
-						
-						Scene scene2 = new Scene(root2);
-						Stage window2 = (Stage) ((Node)event.getSource()).getScene().getWindow();
-						
-						window2.setScene(scene2);
-						window2.show();
+				
 					
 					
+				} else { // show invalid password
+					incorrectPassword.setVisible(true);
+				}
+			}
+			
+		}catch (Exception e) {
+			System.out.print(e);
+			
+		}
+		finally {
+			
+		}
+		
+		
+	}
+	
+	@FXML
+	private void loginEmployee(ActionEvent event) {
+		String u = username.getText();
+		String p = password.getText();
+		
+		try {
+			Connection connection = Database.getConnection();
+			ResultSet result = connection.prepareStatement("SELECT COUNT(1) FROM Users WHERE username = '" + u + "' AND password = '" + p + "' ").executeQuery();
+			
+			while (result.next()) {
+				if (result.getInt(1) == 1 && u.contains("employee")) { // if it's equal then go to main menu admin
+					Parent root = FXMLLoader.load(getClass().getResource("MainMenuCust.fxml")); //get FMXL file
 					
-				}	
+					Scene scene = new Scene(root);
+					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+					
+					window.setScene(scene);
+					window.show();
+					
+				
 					
 					
 				} else { // show invalid password
