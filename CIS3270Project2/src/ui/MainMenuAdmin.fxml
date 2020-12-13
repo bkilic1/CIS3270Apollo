@@ -9,14 +9,14 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="921.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainMenuAdmin">
 	   <children>
-	      <TableView layoutX="288.0" layoutY="482.0" prefHeight="181.0" prefWidth="633.0">
+	      <TableView fx:id="customerFlights" layoutX="288.0" layoutY="482.0" prefHeight="181.0" prefWidth="633.0">
 	         <columns>
-	            <TableColumn prefWidth="96.0" text="Flight #" />
-	            <TableColumn prefWidth="104.0" text="Arrival" />
-	            <TableColumn prefWidth="88.0" text="Departure" />
-	            <TableColumn prefWidth="104.0" text="Arrival Date" />
-	            <TableColumn prefWidth="105.0" text="Departure Date" />
-	            <TableColumn prefWidth="85.0" text="Availability" />
+	            <TableColumn fx:id="myFlightNumberColumn" prefWidth="96.0" text="Flight #" />
+	            <TableColumn fx:id="myFromColumn" prefWidth="104.0" text="From" />
+	            <TableColumn fx:id="myToColumn" prefWidth="88.0" text="To" />
+	            <TableColumn fx:id="myArrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
+	            <TableColumn fx:id="myDepartureDateColumn" prefWidth="105.0" text="Departure Date" />
+	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
 	      <Button fx:id="bookFlightButton" layoutX="196.0" layoutY="189.0" mnemonicParsing="false" text="Book a Flight" />

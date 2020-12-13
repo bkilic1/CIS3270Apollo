@@ -26,12 +26,13 @@ public class UIController extends Database {
 	@FXML private javafx.scene.control.Button loginEmployee;
 
 	@FXML
-	private void loginUser(ActionEvent event) {
+	private void loginUser(ActionEvent event) throws Exception {
 		String u = username.getText();
 		String p = password.getText();
+		Connection connection = Database.getConnection();
 		
 		try {
-			Connection connection = Database.getConnection();
+			
 			ResultSet result = connection.prepareStatement("SELECT * FROM Users WHERE username = '" + u + "' AND password = '" + p + "' ").executeQuery();
 
 			if (result.isBeforeFirst() == false) { // show invalid password
@@ -66,19 +67,17 @@ public class UIController extends Database {
 							
 						}
 						
-						  else { Parent root =
-						  FXMLLoader.load(getClass().getResource("MainMenuCustTest.fxml")); //get FMXL file
-						  
-						  
-						  Scene scene = new Scene(root); Stage window = (Stage)
-						  ((Node)event.getSource()).getScene().getWindow();
-						  
-						  window.setScene(scene); window.show();
+						  else { 
+							  Parent root = FXMLLoader.load(getClass().getResource("MainMenuCustTest.fxml")); //get FMXL file
+							  
+							  
+							  Scene scene = new Scene(root); 
+							  Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+							  
+							  window.setScene(scene); window.show();
 						  
 						  }
-						 
-				
-			}
+				}
 				
 			}
 				
@@ -86,6 +85,9 @@ public class UIController extends Database {
 		catch (Exception e) {
 			System.out.print(e);
 			
+		}
+		finally {
+			connection.close();
 		}
 	}
 	
