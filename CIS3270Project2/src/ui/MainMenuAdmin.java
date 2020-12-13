@@ -1,18 +1,15 @@
 package ui;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.ResourceBundle;
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -57,6 +54,8 @@ public class MainMenuAdmin extends Database {
 	public void initialize () throws Exception {
 		Connection connection = getConnection();
 		
+		//The code below is for all of the available flights
+		
 		try { //This is for all flights available
 
 			ResultSet results = connection.createStatement().executeQuery("SELECT flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), numberofpassengers FROM Flight;");
@@ -85,8 +84,12 @@ public class MainMenuAdmin extends Database {
 		availableFlights.setItems(listOfFlights);
 		
 		
+		/************************************************************************************************************************************/
+		
+		//The code below is for the flights that the user has reserved
+		
 		try { // this is for all flights attached to the user Connection connection =
-			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), f.numberofpassengers from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=123121234;");
+			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), f.numberofpassengers from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() + ";");
 		  
 			  while (results.next()) { 
 				  myFlights.add(new Flight(
@@ -219,8 +222,71 @@ public class MainMenuAdmin extends Database {
 		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
-	private void addFlight() {
+	public void bookFlight() throws Exception{
+		 
+		 Flight selectedFlight = availableFlights.getSelectionModel().getSelectedItem();
+		 
+		 Connection connection = getConnection();
+		 
+		 try {
+			 
+			 if (myFlights.contains(selectedFlight)) {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					
+					alert.setTitle("Unsuccessful");
+					alert.setHeaderText("Information rejected.");
+					alert.setContentText("Expand the dialog below to see why...");
+					
+					TextArea area = new TextArea("You already have this flight selected.");
+					alert.getDialogPane().setExpandableContent(area);
+					alert.showAndWait();
+			 }
+			 else {
+				 PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO UsersInFlight VALUES (%d, %d)", selectedFlight.getFlightNumber(), user.getSsn()));
+				 result.executeUpdate();
+				 
+				 myFlights.add(selectedFlight);
+			 }
+		 }
+		 catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				
+				alert.setTitle("Unsuccessful");
+				alert.setHeaderText("Information rejected.");
+				alert.setContentText("Expand the dialog below to see why...");
+				
+				TextArea area = new TextArea(e.toString());
+				alert.getDialogPane().setExpandableContent(area);
+				alert.showAndWait();
+		 }
+		 finally {
+			 connection.close();
+		 }
 		 
 	}
+	
+	public void cancelFlight() throws Exception {
+		
+		
+		Flight selectedFlight = customerFlights.getSelectionModel().getSelectedItem();
+		
+		Connection connection = getConnection();
+		
+		try {
+			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM UsersInFlight WHERE flightnumber=%d and ssn=%d", selectedFlight.getFlightNumber(), user.getSsn()));
+			result.executeQuery();
+			
+			myFlights.remove(selectedFlight);
+		}
+		
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		finally {
+			connection.close();
+		}
+	}
+	
 
 }

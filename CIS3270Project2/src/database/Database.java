@@ -12,7 +12,7 @@ import users.User;
 
 public abstract class Database {
 	
-	protected User user;
+	protected static User user;
 
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
