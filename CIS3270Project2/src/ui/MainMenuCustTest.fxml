@@ -19,8 +19,8 @@
 	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
-	      <Button fx:id="bookFlightButton" layoutX="196.0" layoutY="189.0" mnemonicParsing="false" text="Book a Flight" />
-	      <Button fx:id="cancelFlightButton" layoutX="180.0" layoutY="573.0" mnemonicParsing="false" text="Cancel a Flight" />
+	      <Button fx:id="bookFlightButton" layoutX="196.0" layoutY="189.0" mnemonicParsing="false" onAction="#bookFlight" text="Book a Flight" />
+	      <Button fx:id="cancelFlightButton" layoutX="180.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelFlight" text="Cancel a Flight" />
 	      <Text layoutX="28.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="50.212890625" />
 	      <TableView fx:id="availableFlights" layoutX="288.0" layoutY="7.0" prefHeight="378.0" prefWidth="633.0">
 	         <columns>

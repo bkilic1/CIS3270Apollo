@@ -24,13 +24,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import users.Flight;
 
-public class MainMenuCustTest extends Database implements Initializable {
+public class MainMenuCustTest extends Database {
 	@FXML private javafx.scene.control.Button add;
 	@FXML private javafx.scene.control.Button delete;
 	@FXML private javafx.scene.control.TextField searchField;
 	
 	
 	@FXML private TableView<Flight> availableFlights;
+	@FXML private TableView<Flight> customerFlights;
 	
 	@FXML private TableColumn<Flight, Integer> flightNumberColumn;
 	@FXML private TableColumn<Flight, String> fromColumn;
@@ -41,12 +42,20 @@ public class MainMenuCustTest extends Database implements Initializable {
 	
 	ObservableList<Flight> listOfFlights = FXCollections.observableArrayList();
 	
-	@Override
-	public void initialize (URL Location, ResourceBundle resources) {
+	@FXML private TableColumn<Flight, Integer> myFlightNumberColumn;
+	@FXML private TableColumn<Flight, String> myFromColumn;
+	@FXML private TableColumn<Flight, String> myToColumn;
+	@FXML private TableColumn<Flight, SimpleDateFormat> myDepartureDateColumn;
+	@FXML private TableColumn<Flight, SimpleDateFormat> myArrivalDateColumn;
+	@FXML private TableColumn<Flight, String> myNumsOfPassengersColumn;
+	
+	ObservableList<Flight> myFlights = FXCollections.observableArrayList();
+	
+	public void initialize () throws Exception {
+		
+		Connection connection = getConnection();
 		
 		try {
-			Connection connection = getConnection();
-			
 			ResultSet results = connection.createStatement().executeQuery("SELECT flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), numberofpassengers FROM Flight;");
 			
 			while (results.next()) {
@@ -71,6 +80,41 @@ public class MainMenuCustTest extends Database implements Initializable {
 		numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
 		
 		availableFlights.setItems(listOfFlights);
+		
+		/************************************************************************************************************************************/
+		
+		//The code below is for the flights that the user has reserved
+		
+		try { // this is for all flights attached to the user Connection connection =
+			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), f.numberofpassengers from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() + ";");
+		  
+			  while (results.next()) { 
+				  myFlights.add(new Flight(
+				  Integer.parseInt(results.getString("flightnumber")),
+				  results.getString("cityfrom"), 
+				  results.getString("cityto"),
+				  results.getString("DATE_FORMAT(f.departure, '%M %e, %Y at %r')"),
+				  results.getString("DATE_FORMAT(f.arrival, '%M %e, %Y at %r')"),
+				  Integer.parseInt(results.getString("numberofpassengers")))); 
+			  }
+		  
+		  } 
+		  catch (Exception e) {
+			  System.out.print(e);
+		  }
+		  
+		  finally {
+			  connection.close();
+		  }
+		
+		myFlightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
+		myFromColumn.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
+		myToColumn.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
+		myDepartureDateColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
+		myArrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+		myNumsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
+		
+		customerFlights.setItems(myFlights);
 		
 	}
 	
@@ -175,7 +219,68 @@ public class MainMenuCustTest extends Database implements Initializable {
 		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
-	private void addFlight() {
+	public void bookFlight() throws Exception{
 		 
+		 Flight selectedFlight = availableFlights.getSelectionModel().getSelectedItem();
+		 
+		 Connection connection = getConnection();
+		 
+		 try {
+			 
+			 if (myFlights.contains(selectedFlight)) {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					
+					alert.setTitle("Unsuccessful");
+					alert.setHeaderText("Information rejected.");
+					alert.setContentText("Expand the dialog below to see why...");
+					
+					TextArea area = new TextArea("You already have this flight selected.");
+					alert.getDialogPane().setExpandableContent(area);
+					alert.showAndWait();
+			 }
+			 else {
+				 PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO UsersInFlight VALUES (%d, %d)", selectedFlight.getFlightNumber(), user.getSsn()));
+				 result.executeUpdate();
+				 
+				 myFlights.add(selectedFlight);
+			 }
+		 }
+		 catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				
+				alert.setTitle("Unsuccessful");
+				alert.setHeaderText("Information rejected.");
+				alert.setContentText("Expand the dialog below to see why...");
+				
+				TextArea area = new TextArea(e.toString());
+				alert.getDialogPane().setExpandableContent(area);
+				alert.showAndWait();
+		 }
+		 finally {
+			 connection.close();
+		 }
+		 
+	}
+	
+	public void cancelFlight() throws Exception {
+		
+		Flight selectedFlight = customerFlights.getSelectionModel().getSelectedItem();
+		
+		Connection connection = getConnection();
+		
+		try {
+			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM UsersInFlight WHERE flightnumber=%d and ssn=%d", selectedFlight.getFlightNumber(), user.getSsn()));
+			result.executeUpdate();
+			
+			myFlights.remove(selectedFlight);
+		}
+		
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		finally {
+			connection.close();
+		}
 	}
 }
