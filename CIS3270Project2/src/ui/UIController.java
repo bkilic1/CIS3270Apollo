@@ -4,9 +4,6 @@ import database.Database;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-
-import com.sun.tools.javac.launcher.Main;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

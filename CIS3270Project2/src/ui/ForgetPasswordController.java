@@ -41,7 +41,9 @@ public class ForgetPasswordController {
 
 			}
 			
-		}catch (Exception e) {
+		}
+		
+		catch (Exception e) {
 			System.out.print(e);
 			
 		}

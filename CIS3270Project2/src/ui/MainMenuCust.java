@@ -111,8 +111,7 @@ public abstract class MainMenuCust extends Database implements Initializable  {
 			Connection connection = getConnection();
 			
 			try {
-				PreparedStatement insertStatement = connection.prepareStatement(String.format("INSERT INTO BOOKED FLIGHTS (confirmation_number, flightnumber, ssn)" + 
-						"values (confirm, flightNumber, ssn)");
+				PreparedStatement insertStatement = connection.prepareStatement(String.format("INSERT INTO BOOKED FLIGHTS (confirmation_number, flightnumber, ssn) values (confirm, flightNumber, ssn)"));
 				insertStatement.executeUpdate();
 				
 				// if successful
@@ -122,7 +121,7 @@ public abstract class MainMenuCust extends Database implements Initializable  {
 				
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
-					switchToSignIn(event);
+					//switchToSignIn(event);
 				}
 				
 				
