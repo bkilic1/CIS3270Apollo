@@ -91,43 +91,6 @@ public class UIController extends Database {
 		}
 	}
 	
-	@FXML
-	private void loginEmployee(ActionEvent event) {
-		String u = username.getText();
-		String p = password.getText();
-		
-		try {
-			Connection connection = Database.getConnection();
-			ResultSet result = connection.prepareStatement("SELECT COUNT(1) FROM Users WHERE username = '" + u + "' AND password = '" + p + "' ").executeQuery();
-			
-			while (result.next()) {
-				if (result.getInt(1) == 1 && u.contains("employee")) { // if it's equal then go to main menu admin
-					Parent root = FXMLLoader.load(getClass().getResource("MainMenuCust.fxml")); //get FMXL file
-					
-					Scene scene = new Scene(root);
-					Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-					
-					window.setScene(scene);
-					window.show();
-					
-				
-					
-					
-				} else { // show invalid password
-					incorrectPassword.setVisible(true);
-				}
-			}
-			
-		}catch (Exception e) {
-			System.out.print(e);
-			
-		}
-		finally {
-			
-		}
-		
-		
-	}
 	
 	@FXML
 	private void switchToSignUp(ActionEvent event) throws IOException {
@@ -155,16 +118,12 @@ public class UIController extends Database {
 		
 	}
 	
-	@FXML
-	private void test() throws IOException {
-		System.out.print("hello");
-	}
-	
 	@Override
 	protected void insertStatement(String table, String query, ActionEvent event) throws Exception {
 		return;
 		
 	}
+	
 	
 
 }

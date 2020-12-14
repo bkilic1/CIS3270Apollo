@@ -283,4 +283,8 @@ public class MainMenuCustTest extends Database {
 			connection.close();
 		}
 	}
+	
+	public static void main(String args[]) {
+		System.out.println(parseStringDateIntoDBDate("December 19, 2020 at 12:00:00 PM"));
+	}
 }
