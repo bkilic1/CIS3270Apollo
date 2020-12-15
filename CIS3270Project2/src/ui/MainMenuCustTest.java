@@ -58,7 +58,7 @@ public class MainMenuCustTest extends Database {
 		
 		try { //This is for all flights available
 
-			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(DISTINCT ssn) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
+			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(f.flightnumber) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
 			
 			while (results.next()) {
 				listOfFlights.add(new Flight(
@@ -67,7 +67,7 @@ public class MainMenuCustTest extends Database {
 						results.getString("cityto"), 
 						results.getString("DATE_FORMAT(departure,'%M %e, %Y at %r')"), 
 						results.getString("DATE_FORMAT(arrival,'%M %e, %Y at %r')"), 
-						Integer.parseInt(results.getString("COUNT(DISTINCT ssn)"))));
+						Integer.parseInt(results.getString("COUNT(f.flightnumber)"))));
 			}
 		}
 		catch (Exception e) {
@@ -259,13 +259,28 @@ public class MainMenuCustTest extends Database {
 		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
-	public void bookFlight() throws Exception{
+	private boolean isMaxCapacity(Flight flight) {
+		System.out.println(flight.getNumberOfPassengers());
+		return flight.getNumberOfPassengers() >= 5 ? true : false;
+	}
+	
+	@FXML
+	private void bookFlight() throws Exception{
 		 
 		 Flight selectedFlight = availableFlights.getSelectionModel().getSelectedItem();
 		 
 		 Connection connection = getConnection();
 		 
 		 try {
+			 
+			 if (isMaxCapacity(selectedFlight)) {
+				 	Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Unsuccessful");
+					alert.setHeaderText("Max Capacity");
+					
+					alert.showAndWait();
+					return;
+			 }
 			 
 			 if (myFlights.contains(selectedFlight)) {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -282,10 +297,7 @@ public class MainMenuCustTest extends Database {
 				 PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO UsersInFlight VALUES (%d, %d)", selectedFlight.getFlightNumber(), user.getSsn()));
 				 result.executeUpdate();
 				 
-				 
 				 myFlights.add(selectedFlight);
-				 
-				 
 			 }
 		 }
 		 catch (Exception e) {
@@ -316,6 +328,8 @@ public class MainMenuCustTest extends Database {
 			result.executeUpdate();
 			
 			myFlights.remove(selectedFlight);
+			
+			 availableFlights.refresh();
 		}
 		
 		catch (Exception e) {
@@ -325,6 +339,7 @@ public class MainMenuCustTest extends Database {
 		finally {
 			connection.close();
 		}
+	
 	}
 	
 	@FXML

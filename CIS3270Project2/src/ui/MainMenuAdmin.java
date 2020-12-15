@@ -33,6 +33,11 @@ public class MainMenuAdmin extends Database {
 	@FXML private javafx.scene.control.Button delete;
 	@FXML private javafx.scene.control.Button addFlightButton;
 	@FXML private javafx.scene.control.TextField searchField;
+	@FXML private TextField flightNumberField;
+	@FXML private TextField fromField;
+	@FXML private TextField toField;
+	@FXML private TextField departureTimeField;
+	@FXML private TextField arrivalTimeField;
 	
 	
 	@FXML private TableView<Flight> availableFlights;
@@ -265,6 +270,11 @@ public class MainMenuAdmin extends Database {
 		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
+	private boolean isMaxCapacity(Flight flight) {
+		System.out.println(flight.getNumberOfPassengers());
+		return flight.getNumberOfPassengers() >= 5 ? true : false;
+	}
+	
 	@FXML
 	private void bookFlight() throws Exception{
 		 
@@ -273,6 +283,15 @@ public class MainMenuAdmin extends Database {
 		 Connection connection = getConnection();
 		 
 		 try {
+			 
+			 if (isMaxCapacity(selectedFlight)) {
+				 	Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Unsuccessful");
+					alert.setHeaderText("Max Capacity");
+					
+					alert.showAndWait();
+					return;
+			 }
 			 
 			 if (myFlights.contains(selectedFlight)) {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -292,6 +311,35 @@ public class MainMenuAdmin extends Database {
 				 myFlights.add(selectedFlight);
 			 }
 		 }
+		 catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				
+				alert.setTitle("Unsuccessful");
+				alert.setHeaderText("Information rejected.");
+				alert.setContentText("Expand the dialog below to see why...");
+				
+				TextArea area = new TextArea(e.toString());
+				alert.getDialogPane().setExpandableContent(area);
+				alert.showAndWait();
+		 }
+		 finally {
+			 connection.close();
+		 }
+		 
+	}
+	
+	
+	private void bookFlight(Flight newFlight) throws Exception {
+		 
+		 Connection connection = getConnection();
+		 
+		 try {
+				 PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO UsersInFlight VALUES (%d, %d)", newFlight.getFlightNumber(), user.getSsn()));
+				 result.executeUpdate();
+				 
+				 myFlights.add(newFlight);
+		 }
+		 
 		 catch (Exception e) {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				
@@ -333,45 +381,19 @@ public class MainMenuAdmin extends Database {
 	}
 	
 	@FXML
-	private void addFlightButtonPressed(ActionEvent event) throws Exception {
-		
-		Parent root = FXMLLoader.load(getClass().getResource("AddFlightPopUp.fxml")); //get FMXL file
-
-		
-		Scene scene = new Scene(root);
-		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		
-		window.setScene(scene);
-		window.show();
-
-		/*
-		 * Stage stage = new Stage(); Parent root =
-		 * FXMLLoader.load(getClass().getResource("AddFlightPopUp.fxml"));
-		 * stage.setScene(new Scene(root));
-		 * stage.initModality(Modality.APPLICATION_MODAL);
-		 * stage.setTitle("Creating a new flight");
-		 * stage.initOwner(addFlightButton.getScene().getWindow()); stage.showAndWait();
-		 */
-
-
-	}
-	
-	@FXML private TextField flightNumberField;
-	@FXML private TextField fromField;
-	@FXML private TextField toField;
-	@FXML private TextField departureTimeField;
-	@FXML private TextField arrivalTimeField;
-	
-	@FXML
 	private void addFlight(ActionEvent event) throws Exception {
 		 Connection connection = getConnection();
 		 
-			int flightNumber = Integer.parseInt(flightNumberField.getText());
+		 int flightNumber;
+		 
+			flightNumber = flightNumberField.getText().equals("") ? flightNumber = (int) (Math.random() * 9999) + 100 : Integer.parseInt(flightNumberField.getText());
 			String from = fromField.getText();
 			String to = toField.getText();
 			String departure = departureTimeField.getText();
 			String arrival = arrivalTimeField.getText();
-			int numOfPassengers = 10;
+			int numOfPassengers = 1;
+			
+
 		 
 		 try {
 			
@@ -394,11 +416,13 @@ public class MainMenuAdmin extends Database {
 			result.executeUpdate();
 				 
 			listOfFlights.add(newFlight);
+			bookFlight(newFlight);
 			
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			
 			alert.setTitle("Successful");
 			alert.setHeaderText("Flight added!");
+			alert.showAndWait();
 			
 			flightNumberField.clear(); fromField.clear(); toField.clear(); departureTimeField.clear(); arrivalTimeField.clear();
 		 }

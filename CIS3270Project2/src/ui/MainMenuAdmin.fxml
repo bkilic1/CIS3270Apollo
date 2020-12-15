@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -19,7 +17,7 @@
 	            <TableColumn fx:id="myToColumn" prefWidth="88.0" text="To" />
 	            <TableColumn fx:id="myDepartureDateColumn" prefWidth="105.0" text="Departure Date" />
 	            <TableColumn fx:id="myArrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
-	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
+	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Your Ticket" />
 	         </columns>
 	      </TableView>
 	      <Button fx:id="bookFlightButton" layoutX="184.0" layoutY="184.0" mnemonicParsing="false" onAction="#bookFlight" text="Book a Flight" />
@@ -32,21 +30,13 @@
 	            <TableColumn fx:id="toColumn" prefWidth="88.0" text="To" />
 	            <TableColumn fx:id="departureDateColumn" prefWidth="105.0" text="Departure Date" />
 	            <TableColumn fx:id="arrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
-	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
+	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="135.0" text="Passengers (Max 5)" />
 	         </columns>
 	      </TableView>
 	      <TextField fx:id="searchField" layoutX="78.0" layoutY="10.0" promptText="Flight #, City, Date, Etc." />
       <Button fx:id="addFlightButton" layoutX="186.0" layoutY="450.0" mnemonicParsing="false" onAction="#addFlight" text="Add a Flight" />
-      <Button fx:id="updateFlightButton" layoutX="564.0" layoutY="396.0" mnemonicParsing="false" text="Update a Flight">
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-              </items>
-            </ContextMenu>
-         </contextMenu></Button>
-      <Button fx:id="deleteFlightButton" layoutX="823.0" layoutY="396.0" mnemonicParsing="false" onAction="#deleteFlight" text="Delete a Flight" />
-      <TextField fx:id="flightNumberField" layoutX="288.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="FlightNumber" />
+      <Button fx:id="deleteFlightButton" layoutX="558.0" layoutY="393.0" mnemonicParsing="false" onAction="#deleteFlight" text="Delete a Flight" />
+      <TextField fx:id="flightNumberField" layoutX="288.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="Flight # (Optional)" />
       <TextField fx:id="fromField" layoutX="419.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="From Destination" />
       <TextField fx:id="toField" layoutX="548.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="To Desination" />
       <TextField fx:id="departureTimeField" layoutX="675.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="Departure" />
