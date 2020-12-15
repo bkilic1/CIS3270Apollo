@@ -17,7 +17,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import users.Flight;
 
@@ -26,6 +29,7 @@ public class MainMenuAdmin extends Database {
 
 	@FXML private javafx.scene.control.Button add;
 	@FXML private javafx.scene.control.Button delete;
+	@FXML private javafx.scene.control.Button addFlightButton;
 	@FXML private javafx.scene.control.TextField searchField;
 	
 	
@@ -39,7 +43,7 @@ public class MainMenuAdmin extends Database {
 	@FXML private TableColumn<Flight, SimpleDateFormat> arrivalDateColumn;
 	@FXML private TableColumn<Flight, String> numsOfPassengersColumn;
 	
-	ObservableList<Flight> listOfFlights = FXCollections.observableArrayList();
+	static ObservableList<Flight> listOfFlights = FXCollections.observableArrayList();
 	
 	@FXML private TableColumn<Flight, Integer> myFlightNumberColumn;
 	@FXML private TableColumn<Flight, String> myFromColumn;
@@ -50,8 +54,8 @@ public class MainMenuAdmin extends Database {
 	
 	ObservableList<Flight> myFlights = FXCollections.observableArrayList();
 	
-	
-	public void initialize () throws Exception {
+	@FXML
+	private void initialize() throws Exception {
 		Connection connection = getConnection();
 		
 		//The code below is for all of the available flights
@@ -68,22 +72,21 @@ public class MainMenuAdmin extends Database {
 						results.getString("DATE_FORMAT(departure,'%M %e, %Y at %r')"), 
 						results.getString("DATE_FORMAT(arrival,'%M %e, %Y at %r')"), 
 						Integer.parseInt(results.getString("numberofpassengers"))));
+				
+				flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
+				fromColumn.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
+				toColumn.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
+				departureDateColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
+				arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+				numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
+				
+				availableFlights.setItems(listOfFlights);
 			}
 		}
 		catch (Exception e) {
 			System.out.print(e);
 		}
-		
-		flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
-		fromColumn.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
-		toColumn.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
-		departureDateColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
-		arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
-		numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
-		
-		availableFlights.setItems(listOfFlights);
-		
-		
+
 		/************************************************************************************************************************************/
 		
 		//The code below is for the flights that the user has reserved
@@ -222,7 +225,8 @@ public class MainMenuAdmin extends Database {
 		return String.format("%s-%s-%s %s", year, month, day, time);
 	}
 	
-	public void bookFlight() throws Exception{
+	@FXML
+	private void bookFlight() throws Exception{
 		 
 		 Flight selectedFlight = availableFlights.getSelectionModel().getSelectedItem();
 		 
@@ -265,7 +269,8 @@ public class MainMenuAdmin extends Database {
 		 
 	}
 	
-	public void cancelFlight() throws Exception {
+	@FXML
+	private void cancelFlight() throws Exception {
 		
 		Flight selectedFlight = customerFlights.getSelectionModel().getSelectedItem();
 		
@@ -285,6 +290,129 @@ public class MainMenuAdmin extends Database {
 		finally {
 			connection.close();
 		}
+	}
+	
+	@FXML
+	private void addFlightButtonPressed(ActionEvent event) throws Exception {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("AddFlightPopUp.fxml")); //get FMXL file
+
+		
+		Scene scene = new Scene(root);
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		
+		window.setScene(scene);
+		window.show();
+
+		/*
+		 * Stage stage = new Stage(); Parent root =
+		 * FXMLLoader.load(getClass().getResource("AddFlightPopUp.fxml"));
+		 * stage.setScene(new Scene(root));
+		 * stage.initModality(Modality.APPLICATION_MODAL);
+		 * stage.setTitle("Creating a new flight");
+		 * stage.initOwner(addFlightButton.getScene().getWindow()); stage.showAndWait();
+		 */
+
+
+	}
+	
+	@FXML private TextField flightNumberField;
+	@FXML private TextField fromField;
+	@FXML private TextField toField;
+	@FXML private TextField departureTimeField;
+	@FXML private TextField arrivalTimeField;
+	
+	@FXML
+	private void addFlight(ActionEvent event) throws Exception {
+		 Connection connection = getConnection();
+		 
+			int flightNumber = Integer.parseInt(flightNumberField.getText());
+			String from = fromField.getText();
+			String to = toField.getText();
+			String departure = departureTimeField.getText();
+			String arrival = arrivalTimeField.getText();
+			int numOfPassengers = 10;
+		 
+		 try {
+			
+			Flight newFlight = new Flight(
+					flightNumber,
+					from,
+					to,
+					departure,
+					arrival,
+					numOfPassengers
+					);
+			
+			PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO Flight VALUES (%d, '%s', '%s', '%s', '%s', %d)",
+					flightNumber,
+					from,
+					to,
+					departure,
+					arrival,
+					numOfPassengers));
+			result.executeUpdate();
+				 
+			listOfFlights.add(newFlight);
+			
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			
+			alert.setTitle("Successful");
+			alert.setHeaderText("Flight added!");
+			
+			flightNumberField.clear(); fromField.clear(); toField.clear(); departureTimeField.clear(); arrivalTimeField.clear();
+		 }
+		 catch (Exception e) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				
+				alert.setTitle("Unsuccessful");
+				alert.setHeaderText("Information rejected.");
+				alert.setContentText("Expand the dialog below to see why...");
+				
+				TextArea area = new TextArea(e.toString());
+				alert.getDialogPane().setExpandableContent(area);
+				alert.showAndWait();
+		 }
+		 finally {
+			 connection.close();
+		 }
+	}
+	
+	@FXML
+	private void deleteFlight() throws Exception {
+		
+		Flight selectedFlight = availableFlights.getSelectionModel().getSelectedItem();
+		
+		Connection connection = getConnection();
+		
+		try {
+			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM Flight WHERE flightnumber=%d", selectedFlight.getFlightNumber()));
+			result.executeUpdate();
+			
+			listOfFlights.remove(selectedFlight);
+		}
+		
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		finally {
+			connection.close();
+		}
+		
+	}
+	
+	@FXML
+	private void logOut(ActionEvent event) throws Exception {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
+
+		
+		Scene scene = new Scene(root);
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		
+		window.setScene(scene);
+		window.show();
 	}
 	
 

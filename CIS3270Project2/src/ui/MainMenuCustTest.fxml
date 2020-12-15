@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="921.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainMenuCustTest">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="663.0" prefWidth="921.0" stylesheets="@../../styles/stlye.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainMenuCustTest">
 	   <children>
 	      <TableView fx:id="customerFlights" layoutX="288.0" layoutY="482.0" prefHeight="181.0" prefWidth="633.0">
 	         <columns>
@@ -20,7 +20,7 @@
 	         </columns>
 	      </TableView>
 	      <Button fx:id="bookFlightButton" layoutX="196.0" layoutY="189.0" mnemonicParsing="false" onAction="#bookFlight" text="Book a Flight" />
-	      <Button fx:id="cancelFlightButton" layoutX="180.0" layoutY="573.0" mnemonicParsing="false" onAction="#cancelFlight" text="Cancel a Flight" />
+	      <Button fx:id="cancelFlightButton" layoutX="180.0" layoutY="548.0" mnemonicParsing="false" onAction="#cancelFlight" text="Cancel a Flight" />
 	      <Text layoutX="28.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search" wrappingWidth="50.212890625" />
 	      <TableView fx:id="availableFlights" layoutX="288.0" layoutY="7.0" prefHeight="378.0" prefWidth="633.0">
 	         <columns>
@@ -33,5 +33,6 @@
 	         </columns>
 	      </TableView>
 	      <TextField layoutX="78.0" layoutY="10.0" />
+      <Button layoutX="78.0" layoutY="604.0" mnemonicParsing="false" onAction="#logOut" prefHeight="45.0" prefWidth="149.0" styleClass="button3" text="Log Out" />
 	   </children>
 	</Pane>

@@ -21,6 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import users.Flight;
 
@@ -284,7 +286,17 @@ public class MainMenuCustTest extends Database {
 		}
 	}
 	
-	public static void main(String args[]) {
-		System.out.println(parseStringDateIntoDBDate("December 19, 2020 at 12:00:00 PM"));
+	@FXML
+	private void logOut(ActionEvent event) throws Exception {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
+
+		
+		Scene scene = new Scene(root);
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		
+		window.setScene(scene);
+		window.show();
 	}
+	
 }
