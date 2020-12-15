@@ -3,22 +3,12 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
 import users.User;
 
 public abstract class Database {
 	
-	protected static User user;
-
-	public static void main(String[] args) throws Exception{
-		// TODO Auto-generated method stub
-		getConnection(); // you can call this method to test
-		
-	}
+	protected static User user; //since user will change when people log in and log out, this will keep track of who's signed in
 	
 	public static void createTable() throws Exception { //This table has already been ran, keeping this for reference
 		Connection connection = getConnection();
@@ -38,10 +28,9 @@ public abstract class Database {
 		}
 	}
 	
-	protected abstract void insertStatement(String table, String query, ActionEvent event) throws Exception;
 	
 	
-	public static Connection getConnection() throws Exception{
+	public static Connection getConnection() throws Exception{ // this function is to establish a connection with google cloud
 		
 		try {
 			String driver = "com.mysql.cj.jdbc.Driver";
@@ -59,13 +48,15 @@ public abstract class Database {
 		
 		return null;
 	}
+	
+	protected abstract void insertStatement(String table, String query, ActionEvent event) throws Exception; //insert statement may vary within each class, made it abstract
 
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(User user) { 
+		Database.user = user;
 	}	
 
 }

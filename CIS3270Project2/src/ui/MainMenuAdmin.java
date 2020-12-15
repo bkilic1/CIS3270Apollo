@@ -3,7 +3,10 @@ package ui;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -59,7 +62,7 @@ public class MainMenuAdmin extends Database {
 	@FXML private TableColumn<Flight, SimpleDateFormat> myArrivalDateColumn;
 	@FXML private TableColumn<Flight, String> myNumsOfPassengersColumn;
 	
-	ObservableList<Flight> myFlights = FXCollections.observableArrayList();
+	static ObservableList<Flight> myFlights = FXCollections.observableArrayList();
 	
 	@FXML
 	private void initialize() throws Exception {
@@ -169,18 +172,6 @@ public class MainMenuAdmin extends Database {
 		
 	}
 	
-	@FXML
-	private void switchToSignIn(ActionEvent event) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
-		
-		Scene scene = new Scene(root);
-		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
-		
-		window.setScene(scene);
-		window.show();
-	}
-	
-	
 	@Override
 	protected void insertStatement(String table, String query, ActionEvent event) throws Exception {
 		Connection connection = getConnection();
@@ -223,23 +214,23 @@ public class MainMenuAdmin extends Database {
 		
 		switch(splittedString[0]) {
 		case "January":
-			month = "1"; break;
-		case "Feburary":
-			month = "2"; break;
+			month = "01"; break;
+		case "February":
+			month = "02"; break;
 		case "March":
-			month = "3"; break;
+			month = "03"; break;
 		case "April":
-			month = "4"; break;
+			month = "04"; break;
 		case "May":
-			month = "5"; break;
+			month = "05"; break;
 		case "June":
-			month = "6"; break;
+			month = "06"; break;
 		case "July":
-			month = "7"; break;
+			month = "07"; break;
 		case "August":
-			month = "8"; break;
+			month = "08"; break;
 		case "September":
-			month = "9"; break;
+			month = "09"; break;
 		case "October":
 			month = "10"; break;
 		case "November":
@@ -254,7 +245,7 @@ public class MainMenuAdmin extends Database {
 		
 		if (splittedString[5].equals("PM")) {
 			String[] splittedTime = splittedString[4].split(":");
-			if (Integer.parseInt(splittedTime[0]) >= 1) {
+			if (Integer.parseInt(splittedTime[0]) >= 1 && Integer.parseInt(splittedTime[0]) < 12) {
 				int temp = Integer.parseInt(splittedTime[0]) + 12;
 				
 				time = Integer.toString(temp) + ":" + splittedTime[1] + ":" + splittedTime[2];
@@ -267,13 +258,48 @@ public class MainMenuAdmin extends Database {
 			time = splittedString[4];
 		}
 		
-		return String.format("%s-%s-%s %s", year, month, day, time);
+		return String.format("%s-%s-%s %s", year, day, month, time);
 	}
 	
 	private boolean isMaxCapacity(Flight flight) {
 		System.out.println(flight.getNumberOfPassengers());
 		return flight.getNumberOfPassengers() >= 5 ? true : false;
 	}
+	
+	static boolean flightConflicts(Flight flight, ObservableList<Flight> ol) throws ParseException {
+		
+		String parsed1 = parseStringDateIntoDBDate(flight.getDeparture()); //flight selected
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+		Date flightDeparture = formatter.parse(parsed1);
+		System.out.println(parsed1);
+		System.out.println(flightDeparture);
+		
+		String parsed2 = parseStringDateIntoDBDate(flight.getArrival()); //flight selected
+		Date flightArrival = formatter.parse(parsed2);
+		
+		System.out.print(flightArrival);
+		
+		for (Flight element : ol) {
+			
+			String parsedDeparture = parseStringDateIntoDBDate(element.getDeparture());
+			Date departure = formatter.parse(parsedDeparture);
+			
+			String parsedArrival = parseStringDateIntoDBDate(element.getArrival());
+			Date arrival = formatter.parse(parsedArrival);
+			
+			
+			  if (flightDeparture.before(arrival) && flightDeparture.after(departure) ||
+					  flightArrival.before(arrival) && flightArrival.after(departure)) { 
+				  return true; 
+				  }
+			  else if (departure.before(flightDeparture)) {
+				  return true;
+			  }
+		}
+		
+		return false;
+	}
+
 	
 	@FXML
 	private void bookFlight() throws Exception{
@@ -283,6 +309,15 @@ public class MainMenuAdmin extends Database {
 		 Connection connection = getConnection();
 		 
 		 try {
+			 
+			 if (flightConflicts(selectedFlight, myFlights)) {
+				 	Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Unsuccessful");
+					alert.setHeaderText("You have a flight conflict");
+					
+					alert.showAndWait();
+					return;
+			 }
 			 
 			 if (isMaxCapacity(selectedFlight)) {
 				 	Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -471,7 +506,7 @@ public class MainMenuAdmin extends Database {
 		
 		listOfFlights.clear();
 		
-		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
+		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml")); //get FMXL file
 
 		
 		Scene scene = new Scene(root);

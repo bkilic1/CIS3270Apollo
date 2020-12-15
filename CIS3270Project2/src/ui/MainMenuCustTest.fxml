@@ -14,9 +14,9 @@
 	            <TableColumn fx:id="myFlightNumberColumn" prefWidth="96.0" text="Flight #" />
 	            <TableColumn fx:id="myFromColumn" prefWidth="104.0" text="From" />
 	            <TableColumn fx:id="myToColumn" prefWidth="88.0" text="To" />
-	            <TableColumn fx:id="myArrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
 	            <TableColumn fx:id="myDepartureDateColumn" prefWidth="105.0" text="Departure Date" />
-	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Your Ticket" />
+	            <TableColumn fx:id="myArrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
+	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
 	      <Button fx:id="bookFlightButton" layoutX="196.0" layoutY="189.0" mnemonicParsing="false" onAction="#bookFlight" text="Book a Flight" />
@@ -27,8 +27,8 @@
 	            <TableColumn fx:id="flightNumberColumn" prefWidth="96.0" text="Flight #" />
 	            <TableColumn fx:id="fromColumn" prefWidth="104.0" text="From" />
 	            <TableColumn fx:id="toColumn" prefWidth="88.0" text="To" />
-	            <TableColumn fx:id="arrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
 	            <TableColumn fx:id="departureDateColumn" prefWidth="105.0" text="Departure Date" />
+	            <TableColumn fx:id="arrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
 	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="135.0" text="Passengers (Max 5)" />
 	         </columns>
 	      </TableView>

@@ -17,7 +17,7 @@
 	            <TableColumn fx:id="myToColumn" prefWidth="88.0" text="To" />
 	            <TableColumn fx:id="myDepartureDateColumn" prefWidth="105.0" text="Departure Date" />
 	            <TableColumn fx:id="myArrivalDateColumn" prefWidth="104.0" text="Arrival Date" />
-	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Your Ticket" />
+	            <TableColumn fx:id="myNumsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
 	      <Button fx:id="bookFlightButton" layoutX="184.0" layoutY="184.0" mnemonicParsing="false" onAction="#bookFlight" text="Book a Flight" />
