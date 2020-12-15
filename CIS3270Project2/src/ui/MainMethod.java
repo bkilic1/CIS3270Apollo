@@ -16,7 +16,7 @@ public class MainMethod extends Application { // DO NOT CHANGE ANYTHIGN IN THIS 
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
+		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml")); //get FMXL file
 		//primaryStage.getIcons().add(new Image("@../../../styles/solar-system.png"));
 		primaryStage.setTitle("Welcome to Apollo Airlines");
 		primaryStage.setScene(new Scene(root)); 

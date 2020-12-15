@@ -1,6 +1,6 @@
 package ui;
 import database.Database;
-import ui.UIController;
+import ui.SignInController;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,7 +37,7 @@ public class SignUpController extends Database{
 	
 	@FXML
 	private void switchToSignIn(ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
+		Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml")); //get FMXL file
 		
 		Scene scene = new Scene(root);
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

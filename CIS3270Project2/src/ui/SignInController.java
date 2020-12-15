@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import users.User;
 
 
-public class UIController extends Database {
+public class SignInController extends Database {
 	
 	@FXML private javafx.scene.control.Button login;
 	@FXML private javafx.scene.control.PasswordField password;
