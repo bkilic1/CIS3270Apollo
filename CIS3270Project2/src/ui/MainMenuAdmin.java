@@ -261,12 +261,12 @@ public class MainMenuAdmin extends Database {
 		return String.format("%s-%s-%s %s", year, day, month, time);
 	}
 	
-	private boolean isMaxCapacity(Flight flight) {
+	private boolean isMaxCapacity(Flight flight) { // this methods checks if the flight is at max capacity
 		System.out.println(flight.getNumberOfPassengers());
 		return flight.getNumberOfPassengers() >= 5 ? true : false;
 	}
 	
-	static boolean flightConflicts(Flight flight, ObservableList<Flight> ol) throws ParseException {
+	static boolean flightConflicts(Flight flight, ObservableList<Flight> ol) throws ParseException { // this method checks if the flight selected conflicts with other flights that you have reserved
 		
 		String parsed1 = parseStringDateIntoDBDate(flight.getDeparture()); //flight selected
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
@@ -292,9 +292,6 @@ public class MainMenuAdmin extends Database {
 					  flightArrival.before(arrival) && flightArrival.after(departure)) { 
 				  return true; 
 				  }
-			  else if (departure.before(flightDeparture)) {
-				  return true;
-			  }
 		}
 		
 		return false;

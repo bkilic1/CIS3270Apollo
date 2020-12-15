@@ -293,9 +293,6 @@ public class MainMenuCustTest extends Database {
 					  flightArrival.before(arrival) && flightArrival.after(departure)) { 
 				  return true; 
 				  }
-			  else if (departure.before(flightDeparture)) {
-				  return true;
-			  }
 		}
 		
 		return false;
