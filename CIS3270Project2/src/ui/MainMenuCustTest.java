@@ -1,18 +1,17 @@
 package ui;
-import java.net.URL;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
-import java.util.ResourceBundle;
-
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,14 +20,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import users.Flight;
 
 public class MainMenuCustTest extends Database {
-	@FXML private javafx.scene.control.Button add;
-	@FXML private javafx.scene.control.Button delete;
+	@FXML private javafx.scene.control.Button bookFlightButton;
+	@FXML private javafx.scene.control.Button cancelFlightButton;
 	@FXML private javafx.scene.control.TextField searchField;
 	
 	
@@ -53,12 +50,15 @@ public class MainMenuCustTest extends Database {
 	
 	ObservableList<Flight> myFlights = FXCollections.observableArrayList();
 	
-	public void initialize () throws Exception {
-		
+	@FXML
+	private void initialize() throws Exception {
 		Connection connection = getConnection();
 		
-		try {
-			ResultSet results = connection.createStatement().executeQuery("SELECT flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), numberofpassengers FROM Flight;");
+		//The code below is for all of the available flights
+		
+		try { //This is for all flights available
+
+			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(DISTINCT ssn) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
 			
 			while (results.next()) {
 				listOfFlights.add(new Flight(
@@ -67,7 +67,7 @@ public class MainMenuCustTest extends Database {
 						results.getString("cityto"), 
 						results.getString("DATE_FORMAT(departure,'%M %e, %Y at %r')"), 
 						results.getString("DATE_FORMAT(arrival,'%M %e, %Y at %r')"), 
-						Integer.parseInt(results.getString("numberofpassengers"))));
+						Integer.parseInt(results.getString("COUNT(DISTINCT ssn)"))));
 			}
 		}
 		catch (Exception e) {
@@ -81,14 +81,14 @@ public class MainMenuCustTest extends Database {
 		arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
 		numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
 		
-		availableFlights.setItems(listOfFlights);
 		
+
 		/************************************************************************************************************************************/
 		
 		//The code below is for the flights that the user has reserved
 		
 		try { // this is for all flights attached to the user Connection connection =
-			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), f.numberofpassengers from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() + ";");
+			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
 		  
 			  while (results.next()) { 
 				  myFlights.add(new Flight(
@@ -97,7 +97,7 @@ public class MainMenuCustTest extends Database {
 				  results.getString("cityto"),
 				  results.getString("DATE_FORMAT(f.departure, '%M %e, %Y at %r')"),
 				  results.getString("DATE_FORMAT(f.arrival, '%M %e, %Y at %r')"),
-				  Integer.parseInt(results.getString("numberofpassengers")))); 
+				  Integer.parseInt(results.getString("COUNT(DISTINCT ssn)")))); 
 			  }
 		  
 		  } 
@@ -117,6 +117,44 @@ public class MainMenuCustTest extends Database {
 		myNumsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
 		
 		customerFlights.setItems(myFlights);
+		
+		FilteredList<Flight> filtered = new FilteredList<>(listOfFlights, b -> true);
+		
+		searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+			filtered.setPredicate(flight -> {
+				
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				
+				String lowercaseFilter = newValue.toLowerCase();
+				
+				if (String.valueOf(flight.getFlightNumber()).indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getDeparture().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getArrival().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getCityFrom().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getCityTo().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else {
+					return false;
+				}
+
+				
+			});
+		});
+		
+		SortedList<Flight> sortedData = new SortedList<>(filtered);
+		sortedData.comparatorProperty().bind(availableFlights.comparatorProperty());
+		availableFlights.setItems(sortedData);
 		
 	}
 	
@@ -244,7 +282,10 @@ public class MainMenuCustTest extends Database {
 				 PreparedStatement result = connection.prepareStatement(String.format("INSERT INTO UsersInFlight VALUES (%d, %d)", selectedFlight.getFlightNumber(), user.getSsn()));
 				 result.executeUpdate();
 				 
+				 
 				 myFlights.add(selectedFlight);
+				 
+				 
 			 }
 		 }
 		 catch (Exception e) {
@@ -288,6 +329,8 @@ public class MainMenuCustTest extends Database {
 	
 	@FXML
 	private void logOut(ActionEvent event) throws Exception {
+		
+		listOfFlights.clear();
 		
 		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
 

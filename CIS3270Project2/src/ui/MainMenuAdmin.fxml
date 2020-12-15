@@ -35,7 +35,7 @@
 	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
-	      <TextField fx:id="searchField" layoutX="78.0" layoutY="10.0" />
+	      <TextField fx:id="searchField" layoutX="78.0" layoutY="10.0" promptText="Flight #, City, Date, Etc." />
       <Button fx:id="addFlightButton" layoutX="186.0" layoutY="450.0" mnemonicParsing="false" onAction="#addFlight" text="Add a Flight" />
       <Button fx:id="updateFlightButton" layoutX="564.0" layoutY="396.0" mnemonicParsing="false" text="Update a Flight">
          <contextMenu>
@@ -50,7 +50,7 @@
       <TextField fx:id="fromField" layoutX="419.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="From Destination" />
       <TextField fx:id="toField" layoutX="548.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="To Desination" />
       <TextField fx:id="departureTimeField" layoutX="675.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="Departure" />
-      <TextField fx:id="arrivalTimeField" layoutX="801.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="Arrival (ISO 8601)" />
+      <TextField fx:id="arrivalTimeField" layoutX="801.0" layoutY="450.0" prefHeight="25.0" prefWidth="114.0" promptText="Arrival" />
       <Label layoutX="669.0" layoutY="492.0" text="Ex: 2020-12-14 12:00:00" />
       <Label layoutX="708.0" layoutY="475.0" text="ISO 8601" />
       <Label layoutX="834.0" layoutY="475.0" text="ISO 8601" />

@@ -64,7 +64,7 @@ public class MainMenuAdmin extends Database {
 		
 		try { //This is for all flights available
 
-			ResultSet results = connection.createStatement().executeQuery("SELECT flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), numberofpassengers FROM Flight;");
+			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(DISTINCT ssn) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
 			
 			while (results.next()) {
 				listOfFlights.add(new Flight(
@@ -73,7 +73,7 @@ public class MainMenuAdmin extends Database {
 						results.getString("cityto"), 
 						results.getString("DATE_FORMAT(departure,'%M %e, %Y at %r')"), 
 						results.getString("DATE_FORMAT(arrival,'%M %e, %Y at %r')"), 
-						Integer.parseInt(results.getString("numberofpassengers"))));
+						Integer.parseInt(results.getString("COUNT(DISTINCT ssn)"))));
 			}
 		}
 		catch (Exception e) {
@@ -94,7 +94,7 @@ public class MainMenuAdmin extends Database {
 		//The code below is for the flights that the user has reserved
 		
 		try { // this is for all flights attached to the user Connection connection =
-			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), f.numberofpassengers from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() + ";");
+			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
 		  
 			  while (results.next()) { 
 				  myFlights.add(new Flight(
@@ -103,7 +103,7 @@ public class MainMenuAdmin extends Database {
 				  results.getString("cityto"),
 				  results.getString("DATE_FORMAT(f.departure, '%M %e, %Y at %r')"),
 				  results.getString("DATE_FORMAT(f.arrival, '%M %e, %Y at %r')"),
-				  Integer.parseInt(results.getString("numberofpassengers")))); 
+				  Integer.parseInt(results.getString("COUNT(DISTINCT ssn)")))); 
 			  }
 		  
 		  } 
@@ -444,6 +444,8 @@ public class MainMenuAdmin extends Database {
 	
 	@FXML
 	private void logOut(ActionEvent event) throws Exception {
+		
+		listOfFlights.clear();
 		
 		Parent root = FXMLLoader.load(getClass().getResource("UI.fxml")); //get FMXL file
 

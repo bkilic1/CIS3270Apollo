@@ -32,7 +32,7 @@
 	            <TableColumn fx:id="numsOfPassengersColumn" prefWidth="135.0" text="Passengers" />
 	         </columns>
 	      </TableView>
-	      <TextField layoutX="78.0" layoutY="10.0" />
+	      <TextField fx:id="searchField" layoutX="78.0" layoutY="10.0" promptText="Flight #, City, Date, Etc." />
       <Button layoutX="78.0" layoutY="604.0" mnemonicParsing="false" onAction="#logOut" prefHeight="45.0" prefWidth="149.0" styleClass="button3" text="Log Out" />
 	   </children>
 	</Pane>
