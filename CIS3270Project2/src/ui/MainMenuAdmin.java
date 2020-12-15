@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import database.Database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,20 +74,20 @@ public class MainMenuAdmin extends Database {
 						results.getString("DATE_FORMAT(departure,'%M %e, %Y at %r')"), 
 						results.getString("DATE_FORMAT(arrival,'%M %e, %Y at %r')"), 
 						Integer.parseInt(results.getString("numberofpassengers"))));
-				
-				flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
-				fromColumn.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
-				toColumn.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
-				departureDateColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
-				arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
-				numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
-				
-				availableFlights.setItems(listOfFlights);
 			}
 		}
 		catch (Exception e) {
 			System.out.print(e);
 		}
+		
+		flightNumberColumn.setCellValueFactory(new PropertyValueFactory<>("flightNumber")); // these are the variables from the class
+		fromColumn.setCellValueFactory(new PropertyValueFactory<>("cityFrom"));
+		toColumn.setCellValueFactory(new PropertyValueFactory<>("cityTo"));
+		departureDateColumn.setCellValueFactory(new PropertyValueFactory<>("departure"));
+		arrivalDateColumn.setCellValueFactory(new PropertyValueFactory<>("arrival"));
+		numsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
+		
+		
 
 		/************************************************************************************************************************************/
 		
@@ -121,6 +123,44 @@ public class MainMenuAdmin extends Database {
 		myNumsOfPassengersColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfPassengers"));
 		
 		customerFlights.setItems(myFlights);
+		
+		FilteredList<Flight> filtered = new FilteredList<>(listOfFlights, b -> true);
+		
+		searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+			filtered.setPredicate(flight -> {
+				
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				
+				String lowercaseFilter = newValue.toLowerCase();
+				
+				if (String.valueOf(flight.getFlightNumber()).indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getDeparture().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getArrival().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getCityFrom().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else if (flight.getCityTo().toLowerCase().indexOf(lowercaseFilter) != -1) {
+					return true;
+				}
+				else {
+					return false;
+				}
+
+				
+			});
+		});
+		
+		SortedList<Flight> sortedData = new SortedList<>(filtered);
+		sortedData.comparatorProperty().bind(availableFlights.comparatorProperty());
+		availableFlights.setItems(sortedData);
 		
 	}
 	
