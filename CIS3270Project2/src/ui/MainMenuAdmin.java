@@ -300,7 +300,7 @@ public class MainMenuAdmin extends Database {
 		return false;
 	}
 
-	
+	//create flight, has to be booked to yourself 
 	@FXML
 	private void bookFlight() throws Exception{
 		 
@@ -363,7 +363,7 @@ public class MainMenuAdmin extends Database {
 		 
 	}
 	
-	
+	//book a new flight,
 	private void bookFlight(Flight newFlight) throws Exception {
 		 
 		 Connection connection = getConnection();
