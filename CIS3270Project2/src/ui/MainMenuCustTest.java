@@ -60,8 +60,9 @@ public class MainMenuCustTest extends Database {
 		//The code below is for all of the available flights
 		
 		try { //This is for all flights available
-
-			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(f.flightnumber) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
+			
+			PreparedStatement statement = connection.prepareStatement("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(f.flightnumber) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
+			ResultSet results = statement.executeQuery();
 			
 			while (results.next()) {
 				listOfFlights.add(new Flight(
@@ -91,8 +92,10 @@ public class MainMenuCustTest extends Database {
 		//The code below is for the flights that the user has reserved
 		
 		try { // this is for all flights attached to the user Connection connection =
-			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
-		  
+			
+			PreparedStatement statement = connection.prepareStatement("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
+			ResultSet results = statement.executeQuery(); 
+			 
 			  while (results.next()) { 
 				  myFlights.add(new Flight(
 				  Integer.parseInt(results.getString("flightnumber")),

@@ -3,7 +3,6 @@ package ui;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
-
 import database.Database;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,16 +22,16 @@ public class ForgetPasswordController {
 	
 	@FXML
 	private void securityCheck(ActionEvent event) throws Exception {
+
 		
 		Connection connection = Database.getConnection();
-		
+
 		String u = userSecurity.getText();
 		String ser = securityAnswer.getText();
 
 		//test
 		//will check database if user name is = to security question
 		try {
-
 			ResultSet result = connection.prepareStatement("SELECT password FROM Users WHERE username = '" + u + "' AND securityanswer = '" + ser + "' ").executeQuery();
 		
 			
@@ -50,7 +49,7 @@ public class ForgetPasswordController {
 			
 		}
 		finally {
-			
+			connection.close();
 		}
 		
 	}

@@ -8,6 +8,8 @@ import users.User;
 
 public abstract class Database {
 	
+	
+	
 	protected static User user; //since user will change when people log in and log out, this will keep track of who's signed in
 	
 	public static void createTable() throws Exception { //This table has already been ran, keeping this for reference

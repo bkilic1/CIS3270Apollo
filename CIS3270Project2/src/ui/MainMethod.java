@@ -9,7 +9,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class MainMethod extends Application { // DO NOT CHANGE ANYTHIGN IN THIS CLASS, EVERYTHING NEEDS TO BE DONE IN CONTROLLER
-
+	
+	//uses 
 	public static void main(String[] args) {
 		launch(args);
 	}

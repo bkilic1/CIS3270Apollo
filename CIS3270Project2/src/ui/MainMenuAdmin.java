@@ -24,8 +24,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import users.Flight;
 
@@ -71,8 +69,9 @@ public class MainMenuAdmin extends Database {
 		//The code below is for all of the available flights
 		
 		try { //This is for all flights available
-
-			ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(DISTINCT ssn) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
+			
+			PreparedStatement statement = connection.prepareStatement("SELECT f.flightnumber, cityfrom, cityto, DATE_FORMAT(departure,'%M %e, %Y at %r'), DATE_FORMAT(arrival,'%M %e, %Y at %r'), COUNT(DISTINCT ssn) FROM Flight f inner join UsersInFlight uif on f.flightnumber = uif.flightnumber GROUP BY flightnumber;");
+			ResultSet results = statement.executeQuery();
 			
 			while (results.next()) {
 				listOfFlights.add(new Flight(
@@ -101,8 +100,10 @@ public class MainMenuAdmin extends Database {
 		
 		//The code below is for the flights that the user has reserved
 		
-		try { // this is for all flights attached to the user Connection connection =
-			  ResultSet results = connection.createStatement().executeQuery("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
+		try { // this is for all flights attached to the user Connection connection = //PreparedStatement insertStatement = connection.prepareStatement(String.format("INSERT INTO %s VALUES (%s);", table, query));
+			
+				PreparedStatement statement = connection.prepareStatement("SELECT f.flightnumber, f.cityfrom, f.cityto, DATE_FORMAT(f.departure, '%M %e, %Y at %r'), DATE_FORMAT(f.arrival, '%M %e, %Y at %r'), COUNT(DISTINCT ssn) from Flight f INNER JOIN UsersInFlight uif on f.flightnumber = uif.flightnumber WHERE ssn=" + user.getSsn() +  " group BY flightnumber;");
+				ResultSet results = statement.executeQuery();
 		  
 			  while (results.next()) { 
 				  myFlights.add(new Flight(
@@ -297,7 +298,7 @@ public class MainMenuAdmin extends Database {
 		return false;
 	}
 
-	
+	//create flight, has to be booked to yourself 
 	@FXML
 	private void bookFlight() throws Exception{
 		 
@@ -360,7 +361,7 @@ public class MainMenuAdmin extends Database {
 		 
 	}
 	
-	
+	//book a new flight,
 	private void bookFlight(Flight newFlight) throws Exception {
 		 
 		 Connection connection = getConnection();
