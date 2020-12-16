@@ -482,8 +482,11 @@ public class MainMenuAdmin extends Database {
 		Connection connection = getConnection();
 		
 		try {
-			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM Flight WHERE flightnumber=%d", selectedFlight.getFlightNumber()));
+			PreparedStatement result = connection.prepareStatement(String.format("DELETE FROM UsersInFlight WHERE flightnumber=%s", selectedFlight.getFlightNumber()));
 			result.executeUpdate();
+			
+			PreparedStatement result2 = connection.prepareStatement(String.format("DELETE FROM Flight WHERE flightnumber=%s", selectedFlight.getFlightNumber()));
+			result2.executeUpdate();
 			
 			listOfFlights.remove(selectedFlight);
 		}
