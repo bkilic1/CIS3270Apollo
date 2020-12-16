@@ -22,7 +22,9 @@ public class ForgetPasswordController {
 	@FXML private javafx.scene.control.Label showPassword;
 	
 	@FXML
-	private void securityCheck(ActionEvent event) {
+	private void securityCheck(ActionEvent event) throws Exception {
+		
+		Connection connection = Database.getConnection();
 		
 		String u = userSecurity.getText();
 		String ser = securityAnswer.getText();
@@ -30,7 +32,7 @@ public class ForgetPasswordController {
 		//test
 		//will check database if user name is = to security question
 		try {
-			Connection connection = Database.getConnection();
+
 			ResultSet result = connection.prepareStatement("SELECT password FROM Users WHERE username = '" + u + "' AND securityanswer = '" + ser + "' ").executeQuery();
 		
 			
